@@ -5,6 +5,7 @@
 #   https://codeberg.org/novakane/yambar/src/branch/master/examples/scripts/dwl-tags.sh
 #
 # USAGE: waybar-dwl.sh MONITOR COMPONENT
+#        "MONITOR"   is a wayland output such as "eDP-1"
 #        "COMPONENT" is an integer representing a dwl tag OR "layout" OR "title"
 #
 # REQUIREMENTS:
@@ -73,7 +74,6 @@
 #   "custom/dwl_layout": {
 #     "exec": "/path/to/waybar-dwl.sh '' layout",
 #     "format": "{}",
-#     "escape": true,
 #     "return-type": "json"
 #   },
 #   "custom/dwl_title": {
@@ -115,13 +115,14 @@ declare -a tags name
 readonly fname="$HOME"/.cache/dwltags
 
 tags=( "1" "2" "3" "4" "5" "6" "7" "8" "9" )
-name=( "" "" "" "" "" "" "7" "8" "9" ) # Array of labels for tags
+name=( "" "" "" "" "" "" "➐" "➑" "➒" ) # Array of labels for tags
 
 monitor="${1}"
 component="${2}"
 
 _cycle() {
-	case "${component}" in
+    case "${component}" in
+	# If you use fewer than 9 tags, reduce this array accordingly
 	[012345678])
 	    this_tag="${component}"
 	    unset this_status
@@ -158,7 +159,7 @@ while [[ -n "$(pgrep waybar)" ]] ; do
     output="$(grep  "${monitor}" "${fname}" | tail -n6)"
     title="$(echo   "${output}" | grep '^[[:graph:]]* title'  | cut -d ' ' -f 3-  | sed s/\"/“/g )" # Replace quotes - prevent waybar crash
     layout="$(echo  "${output}" | grep '^[[:graph:]]* layout' | cut -d ' ' -f 3- )"
-    #selmon="$(echo "${output}" | grep 'selmon')"
+    selmon="$(echo "${output}" | grep 'selmon')"
 
     # Get the tag bit mask as a decimal
     activetags="$(echo "${output}"   | grep '^[[:graph:]]* tags' | awk '{print $3}')"
