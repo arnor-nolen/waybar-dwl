@@ -115,7 +115,7 @@ declare -a tags name
 readonly fname="$HOME"/.cache/dwltags
 
 tags=( "1" "2" "3" "4" "5" "6" "7" "8" "9" )
-name=( "" "" "" "" "" "" "➐" "➑" "➒" ) # Array of labels for tags
+name=( "" "" "" "" "" "" "𝟳" "𝟴" "𝟵" ) # Array of labels for tags
 
 monitor="${1}"
 component="${2}"
